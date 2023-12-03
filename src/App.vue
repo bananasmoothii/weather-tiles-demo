@@ -1,14 +1,14 @@
 <script lang="ts">
 import {defineComponent} from 'vue'
+import Header from "@/components/Header.vue";
 
 export default defineComponent({
-  name: "App"
+  name: "App",
+  components: {Header}
 })
 </script>
 
 <template>
-  <header></header>
-  <h1 class="text-green-500">Hi</h1>
-
+  <Header/>
   <RouterView/>
 </template>

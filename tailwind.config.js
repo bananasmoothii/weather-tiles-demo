@@ -1,3 +1,5 @@
+const colors = require('tailwindcss/colors')
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -5,8 +7,22 @@ module.exports = {
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "primary": "#E2E957",
+        "primary-darker": "#c6cc4b",
+        "primary-lighter": "#f1f59f",
+        "primary-light": "#fcffbf",
+        "highlight": "#DF3817",
+      },
+      fontFamily: {
+        header: ["Dhurjati", "Dhurjati-fallback"],
+      }
+    },
   },
   plugins: [],
+  safelist: [
+    "translate-x-2.5", // added dynamically in login primary button
+  ],
 }
 

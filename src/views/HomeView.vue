@@ -7,11 +7,19 @@ export default defineComponent({
 </script>
 
 <template>
-  <div>
+  <div class="mb-96">
+    <h1>Home</h1>
+  </div>
+  <div class="mb-96">
+    <h1>Home</h1>
+  </div>
+  <div class="mb-96">
+    <h1>Home</h1>
+  </div>
+  <div class="mb-96">
+    <h1>Home</h1>
+  </div>
+  <div class="mb-96">
     <h1>Home</h1>
   </div>
 </template>
-
-<style scoped>
-
-</style>

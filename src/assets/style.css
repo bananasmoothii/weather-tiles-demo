@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: 'Dhurjati';
+    src: url('fonts/Dhurjati-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Dhurjati-fallback';
+    src: local("Arial Black");
+    size-adjust: 0.667;
+    line-gap-override: 2.5;
+}
