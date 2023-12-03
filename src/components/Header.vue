@@ -79,7 +79,7 @@ export default defineComponent({
       </div>
       <div class="flex md:hidden">
         <button type="button"
-                class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 hover:bg-gray-100"
+                class="-m-2.5 inline-flex items-center justify-center rounded-md px-2.5 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200"
                 @click="mobileMenuOpen = true">
           <Bars3Icon class="h-8 w-8" aria-hidden="true"/>
         </button>

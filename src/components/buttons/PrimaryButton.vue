@@ -10,14 +10,14 @@
 export default {
   name: 'PrimaryButton',
   emits: {
-    click: (e: PointerEvent) => true
+    click: (e: MouseEvent) => true
   },
   methods: {
-    onClick(e: PointerEvent) {
+    onClick(e: MouseEvent) {
       this.$emit('click', e)
     },
-    mouseEnter(e: PointerEvent) {
-      let button: HTMLButtonElement = this.$refs.button;
+    mouseEnter(e: MouseEvent) {
+      let button = this.$refs.button as HTMLButtonElement;
       button.querySelectorAll(".button-hover").forEach((el: Element) => {
         for (let clazz of el.classList.values()) {
           if (clazz.startsWith("button-hover:")) {
@@ -26,8 +26,8 @@ export default {
         }
       })
     },
-    mouseLeave(e: PointerEvent) {
-      let button: HTMLButtonElement = this.$refs.button;
+    mouseLeave(e: MouseEvent) {
+      let button = this.$refs.button as HTMLButtonElement;
       button.querySelectorAll(".button-hover").forEach((el: Element) => {
         for (let clazz of el.classList.values()) {
           if (clazz.startsWith("button-hover:")) {
