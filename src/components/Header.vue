@@ -36,7 +36,8 @@ export default defineComponent({
         {name: "Home", to: "/"},
         {name: "About", to: "/about"},
         {name: "Dummy", to: "/"},
-      ]
+      ],
+      lastClosedTime: 0,
     }
   },
   components: {
@@ -65,11 +66,28 @@ export default defineComponent({
     PopoverGroup,
     PopoverPanel,
   },
+  methods: {
+    mobileMenuButtonClicked() {
+      if (this.mobileMenuOpen) {
+        this.mobileMenuOpen = false;
+        return;
+      }
+      // we have to do this because teh click will trigger twice:
+      // once for clicking the modal away and once for clicking the button
+      if (Date.now() - this.lastClosedTime > 100) {
+        this.mobileMenuOpen = true;
+      }
+    },
+    modalClosed() {
+      this.mobileMenuOpen = false;
+      this.lastClosedTime = Date.now();
+    }
+  }
 })
 </script>
 
 <template>
-  <header class="bg-white shadow-lg backdrop-blur transition-all sticky top-0 z-20">
+  <header class="shadow-lg bg-white bg-opacity-20 backdrop-blur transition-all sticky top-0 z-20">
     <nav class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4" aria-label="Navbar">
       <div class="flex md:flex-1">
         <RouterLink to="/" class="-m-1.5 p-1.5 flex items-center gap-3 text-primary-darker">
@@ -80,7 +98,7 @@ export default defineComponent({
       <div class="flex md:hidden">
         <button type="button"
                 class="-m-2.5 inline-flex items-center justify-center rounded-md px-2.5 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200"
-                @click="mobileMenuOpen = true">
+                @click="mobileMenuButtonClicked">
           <Bars3Icon class="h-8 w-8" aria-hidden="true"/>
         </button>
       </div>
@@ -94,42 +112,26 @@ export default defineComponent({
         <LogInButton/>
       </div>
     </nav>
-    <TransitionRoot appear :show="mobileMenuOpen"
-                    enter="transition-opacity duration-150"
-                    enter-from="opacity-0"
-                    enter-to="opacity-100"
-                    leave="transition-opacity duration-150"
-                    leave-from="opacity-100"
-                    leave-to="opacity-0">
-      <Dialog as="div" class="md:hidden" @close="mobileMenuOpen = false" :open="mobileMenuOpen">
+    <TransitionRoot :show="mobileMenuOpen">
+      <Dialog as="div" class="md:hidden" @close="modalClosed">
         <TransitionChild
-            enter="transition-opacity duration-150"
+            enter="transition-opacity duration-[500ms]"
             enter-from="opacity-0"
             enter-to="opacity-100"
-            leave="transition-opacity duration-150"
+            leave="transition-opacity duration-[500ms]"
             leave-from="opacity-100"
             leave-to="opacity-0">
-          <div class="fixed inset-0 z-10"/>
+          <div class="fixed inset-0 top-16 z-70 bg-black opacity-20"/>
         </TransitionChild>
         <TransitionChild
-            enter="transition-opacity duration-150"
-            enter-from="opacity-0"
-            enter-to="opacity-100"
-            leave="transition-opacity duration-150"
-            leave-from="opacity-100"
-            leave-to="opacity-0">
-          <DialogPanel
-              class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-4 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-            <div class="flex items-center justify-between">
-              <a href="#" class="-m-1.5 p-1.5">
-                <span class="sr-only">Your Company</span>
-                <img class="h-8 w-auto" src="/icon.svg" alt=""/>
-              </a>
-              <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700" @click="mobileMenuOpen = false">
-                <span class="sr-only">Close menu</span>
-                <XMarkIcon class="h-6 w-6" aria-hidden="true"/>
-              </button>
-            </div>
+            class="absolute backdrop-blur bg-white bg-opacity-60 top-14 bottom-0 right-0 z-80 w-full overflow-y-auto px-6 py-4 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10"
+            enter="transition ease-in-out duration-[1s] transform"
+            enter-from="translate-x-full"
+            enter-to="translate-x-0"
+            leave="transition ease-in-out duration-[1s] transform"
+            leave-from="translate-x-0"
+            leave-to="translate-x-full">
+          <DialogPanel>
             <div class="mt-6 flow-root">
               <div class="-my-6 divide-y">
                 <div class="-mx-3 space-y-2 py-6">

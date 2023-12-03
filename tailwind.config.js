@@ -16,7 +16,7 @@ module.exports = {
         "highlight": "#DF3817",
       },
       fontFamily: {
-        header: ["Dhurjati", "Dhurjati-fallback"],
+        header: "Arial Black",
       }
     },
   },
