@@ -78,7 +78,7 @@ export default defineComponent({
         this.mobileMenuOpen = true;
       }
     },
-    modalClosed() {
+    modalClose() {
       this.mobileMenuOpen = false;
       this.lastClosedTime = Date.now();
     }
@@ -113,35 +113,35 @@ export default defineComponent({
       </div>
     </nav>
     <TransitionRoot :show="mobileMenuOpen">
-      <Dialog as="div" class="md:hidden" @close="modalClosed">
+      <Dialog as="div" class="md:hidden" @close="modalClose">
         <TransitionChild
-            enter="transition-opacity duration-[500ms]"
+            enter="transition-opacity duration-[800ms] ease-in-out"
             enter-from="opacity-0"
             enter-to="opacity-100"
-            leave="transition-opacity duration-[500ms]"
+            leave="transition-opacity duration-[800ms] ease-in-out"
             leave-from="opacity-100"
             leave-to="opacity-0">
           <div class="fixed inset-0 top-16 z-70 bg-black opacity-20"/>
         </TransitionChild>
         <TransitionChild
             class="absolute backdrop-blur bg-white bg-opacity-60 top-14 bottom-0 right-0 z-80 w-full overflow-y-auto px-6 py-4 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10"
-            enter="transition ease-in-out duration-[1s] transform"
+            enter="transition ease-in-out duration-[800ms] transform"
             enter-from="translate-x-full"
             enter-to="translate-x-0"
-            leave="transition ease-in-out duration-[1s] transform"
+            leave="transition ease-in-out duration-[800ms] transform"
             leave-from="translate-x-0"
             leave-to="translate-x-full">
           <DialogPanel>
             <div class="mt-6 flow-root">
               <div class="-my-6 divide-y">
                 <div class="-mx-3 space-y-2 py-6">
-                  <RouterLink v-for="link in links" :key="link.to" :to="link.to"
+                  <RouterLink v-for="link in links" :key="link.to" :to="link.to" @click="modalClose"
                               class="font-header block uppercase rounded-lg px-3 py-2 leading-7 text-gray-900 hover:bg-gray-100">
                     {{ link.name }}
                   </RouterLink>
                 </div>
                 <div class="py-6">
-                  <LogInButton/>
+                  <LogInButton @click="modalClose"/>
                 </div>
               </div>
             </div>
