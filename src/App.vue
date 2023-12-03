@@ -8,10 +8,7 @@ export default defineComponent({
 
 <template>
   <header></header>
+  <h1 class="text-green-500">Hi</h1>
 
   <RouterView/>
 </template>
-
-<style scoped>
-
-</style>
