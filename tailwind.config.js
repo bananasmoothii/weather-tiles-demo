@@ -16,7 +16,7 @@ module.exports = {
         "highlight": "#DF3817",
       },
       fontFamily: {
-        header: "Arial Black",
+        header: ["'Arial Black'", "'Arial Black fallback'", "Arial"],
       }
     },
   },
