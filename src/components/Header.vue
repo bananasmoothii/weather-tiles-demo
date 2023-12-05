@@ -88,8 +88,8 @@ export default defineComponent({
 
 <template>
   <header class="shadow-lg bg-white bg-opacity-20 backdrop-blur transition-all sticky top-0 z-20">
-    <nav class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4" aria-label="Navbar">
-      <div class="flex md:flex-1">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 gap-8 lg:gap-12 xl:gap-16" aria-label="Navbar">
+      <div class="flex">
         <RouterLink to="/" class="-m-1.5 p-1.5 flex items-center gap-3 text-primary-darker">
           <img class="h-8 w-8" src="/icon.svg" alt=""/>
           <span class="font-header leading-4 uppercase">Weather<br/>Tiles</span>
@@ -102,7 +102,7 @@ export default defineComponent({
           <Bars3Icon class="h-8 w-8" aria-hidden="true"/>
         </button>
       </div>
-      <div class="hidden md:flex gap-8 xl:gap-28">
+      <div class="hidden md:flex gap-4 lg:gap-12 justify-start items-start">
         <RouterLink v-for="link of links" :key="link.to" :to="link.to"
                     class="font-header uppercase text-gray-900 rounded-md px-3 py-2.5 hover:bg-gray-100">
           {{ link.name }}
