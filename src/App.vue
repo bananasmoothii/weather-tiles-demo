@@ -10,5 +10,7 @@ export default defineComponent({
 
 <template>
   <Header/>
-  <RouterView/>
+  <div id="main" class="my-6 md:my-10 mx-8 md:mx-16 xl:mx-36">
+    <RouterView/>
+  </div>
 </template>
