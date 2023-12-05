@@ -87,7 +87,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <header class="shadow-lg bg-white bg-opacity-20 backdrop-blur sticky top-0 z-20">
+  <header class="shadow-lg bg-white bg-opacity-20 backdrop-blur fixed w-full top-0 z-20">
     <div class="px-6 py-3 flex justify-between max-w-7xl mx-auto">
       <nav class="mx-auto flex items-center justify-start gap-8 lg:gap-12 xl:gap-16 grow"
            aria-label="Navbar">
@@ -121,7 +121,7 @@ export default defineComponent({
       </div>
     </div>
     <TransitionRoot :show="mobileMenuOpen">
-      <Dialog as="div" class="md:hidden" @close="modalClose">
+      <Dialog class="md:hidden" @close="modalClose">
         <TransitionChild
             enter="transition-opacity duration-[800ms] ease-in-out"
             enter-from="opacity-0"
@@ -132,7 +132,7 @@ export default defineComponent({
           <div class="fixed inset-0 top-14 z-70 bg-black opacity-20"/>
         </TransitionChild>
         <TransitionChild
-            class="absolute backdrop-blur bg-white bg-opacity-60 top-14 bottom-0 right-0 z-80 w-full overflow-y-auto px-6 py-4 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10"
+            class="fixed backdrop-blur bg-white bg-opacity-60 top-14 bottom-0 right-0 z-80 w-full overflow-y-auto px-6 py-4 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10"
             enter="transition ease-in-out duration-[800ms] transform"
             enter-from="translate-x-full"
             enter-to="translate-x-0"
@@ -140,7 +140,7 @@ export default defineComponent({
             leave-from="translate-x-0"
             leave-to="translate-x-full">
           <DialogPanel>
-            <div class="mt-6 fixed flow-root">
+            <div class="mt-6 flow-root w-full">
               <div class="-my-6">
                 <div class="-mx-3 space-y-2 py-6">
                   <RouterLink v-for="link in links" :key="link.to" :to="link.to" @click="modalClose"
