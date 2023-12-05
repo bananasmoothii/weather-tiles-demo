@@ -104,7 +104,7 @@ export default defineComponent({
           </RouterLink>
           <div class="grow">
             <input type="search" name="search" id="search"
-                   class="rounded-lg p-2 h-10 w-[7rem] lg:w-[9rem] xl:w-[12rem] focus:w-[90%] lg:focus:w-[80%] xl:focus:w-[24rem] border-[1px] bg-gray-300 bg-opacity-30 border-gray-300"
+                   class="rounded-lg p-2 h-10 w-[7rem] lg:w-[9rem] xl:w-[12rem] focus:w-[90%] lg:focus:w-[80%] xl:focus:w-[24rem] border-[1px] bg-black bg-opacity-5 border-gray-300"
                    placeholder="Search..."/>
           </div>
         </div>
@@ -114,7 +114,7 @@ export default defineComponent({
       </div>
       <div class="flex md:hidden items-center">
         <button type="button"
-                class="-m-2.5 inline-flex items-center justify-center rounded-md px-2.5 py-2 text-gray-700 bg-gray-300 bg-opacity-30 hover:bg-gray-200"
+                class="-m-2.5 inline-flex items-center justify-center rounded-md px-2.5 py-2 text-gray-700 bg-black bg-opacity-5 hover:bg-gray-200"
                 @click="mobileMenuButtonClicked">
           <Bars3Icon class="h-8 w-8" aria-hidden="true"/>
         </button>
