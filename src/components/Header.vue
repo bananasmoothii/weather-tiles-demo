@@ -87,7 +87,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <header class="shadow-lg bg-white bg-opacity-20 backdrop-blur fixed w-full top-0 z-20">
+  <header class="shadow-lg bg-white bg-opacity-30 backdrop-blur fixed w-full top-0 z-20">
     <div class="px-6 py-3 flex justify-between max-w-7xl mx-auto">
       <nav class="mx-auto flex items-center justify-start gap-8 lg:gap-12 xl:gap-16 grow"
            aria-label="Navbar">
