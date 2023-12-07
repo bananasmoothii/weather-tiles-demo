@@ -1,22 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @font-face {
-    font-family: 'Arial Black fallback';
-    src: url("./fonts/Arial Black.ttf");
+  font-family: "Arial Black fallback";
+  src: url("./fonts/Arial Black.ttf");
 }
 
 body {
-    overflow-x: hidden;
+  overflow-x: hidden;
 }
 
 header * {
-    transition: all 0.3s cubic-bezier(0, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0, 0, 0.2, 1);
 }
 
 p {
-    margin-top: 1rem;
+  margin-top: 1rem;
 }

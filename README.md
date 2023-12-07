@@ -8,7 +8,7 @@ To visit, just click the link above. If you want to run it locally, follow the i
 npm install
 ```
 
-Compile and Hot-Reload for Development 
+Compile and Hot-Reload for Development
 
 ```sh
 npm run dev
