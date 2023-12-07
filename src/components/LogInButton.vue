@@ -1,10 +1,7 @@
 <template>
   <PrimaryButton class="flex gap-3">
     <span class="flex-1 whitespace-nowrap">Log in</span>
-    <ArrowLongRightIcon
-      class="button-hover button-hover:translate-x-2.5 w-6 transition-all"
-      aria-hidden="true"
-    />
+    <ArrowLongRightIcon class="button-hover button-hover:translate-x-2.5 w-6 transition-all" aria-hidden="true" />
   </PrimaryButton>
 </template>
 <script lang="ts">

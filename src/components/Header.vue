@@ -23,11 +23,7 @@ import {
   SquaresPlusIcon,
   XMarkIcon,
 } from "@heroicons/vue/24/outline";
-import {
-  ChevronDownIcon,
-  PhoneIcon,
-  PlayCircleIcon,
-} from "@heroicons/vue/20/solid";
+import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from "@heroicons/vue/20/solid";
 import PrimaryButton from "@/components/buttons/PrimaryButton.vue";
 import LogInButton from "@/components/LogInButton.vue";
 
@@ -52,7 +48,6 @@ export default defineComponent({
     ArrowPathIcon,
     ArrowLongRightIcon,
     Bars3Icon,
-
     ChartPieIcon,
     CursorArrowRaysIcon,
     FingerPrintIcon,
@@ -92,23 +87,13 @@ export default defineComponent({
 </script>
 
 <template>
-  <header
-    class="fixed top-0 z-20 w-full bg-white bg-opacity-30 shadow-lg backdrop-blur"
-  >
+  <header class="fixed top-0 z-20 w-full bg-white bg-opacity-30 shadow-lg backdrop-blur">
     <div class="mx-auto flex max-w-7xl justify-between px-6 py-3">
-      <nav
-        class="mx-auto flex grow items-center justify-start gap-8 lg:gap-12 xl:gap-16"
-        aria-label="Navbar"
-      >
+      <nav class="mx-auto flex grow items-center justify-start gap-8 lg:gap-12 xl:gap-16" aria-label="Navbar">
         <div class="flex">
-          <RouterLink
-            to="/"
-            class="-m-1.5 flex items-center gap-3 p-1.5 text-primary-darker"
-          >
-            <img class="h-8 w-8" src="/icon.svg" />
-            <span class="font-header uppercase leading-4"
-              >Weather<br />Tiles</span
-            >
+          <RouterLink to="/" class="-m-1.5 flex items-center gap-3 p-1.5 text-primary-darker">
+            <img class="h-8 w-8" src="/icon.svg" alt="icon" />
+            <span class="font-header uppercase leading-4">Weather<br />Tiles</span>
           </RouterLink>
         </div>
         <div class="hidden grow items-center gap-4 md:flex lg:gap-12">
@@ -140,16 +125,8 @@ export default defineComponent({
           class="-m-2.5 inline-flex items-center justify-center rounded-md bg-black bg-opacity-5 px-2.5 py-2 text-gray-700 hover:bg-gray-200"
           @click="mobileMenuButtonClicked"
         >
-          <Bars3Icon
-            :style="{ opacity: mobileMenuOpen ? 0 : 1 }"
-            class="h-8 w-8"
-            aria-hidden="true"
-          />
-          <XMarkIcon
-            :style="{ opacity: mobileMenuOpen ? 1 : 0 }"
-            class="absolute h-8 w-8"
-            aria-hidden="true"
-          />
+          <Bars3Icon :style="{ opacity: mobileMenuOpen ? 0 : 1 }" class="h-8 w-8" aria-hidden="true" />
+          <XMarkIcon :style="{ opacity: mobileMenuOpen ? 1 : 0 }" class="absolute h-8 w-8" aria-hidden="true" />
         </button>
       </div>
     </div>
