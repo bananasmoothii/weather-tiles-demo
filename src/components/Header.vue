@@ -48,6 +48,7 @@ export default defineComponent({
     ArrowPathIcon,
     ArrowLongRightIcon,
     Bars3Icon,
+
     ChartPieIcon,
     CursorArrowRaysIcon,
     FingerPrintIcon,
@@ -116,7 +117,8 @@ export default defineComponent({
         <button type="button"
                 class="-m-2.5 inline-flex items-center justify-center rounded-md px-2.5 py-2 text-gray-700 bg-black bg-opacity-5 hover:bg-gray-200"
                 @click="mobileMenuButtonClicked">
-          <Bars3Icon class="h-8 w-8" aria-hidden="true"/>
+          <Bars3Icon :style="{opacity: mobileMenuOpen ? 0 : 1}" class="h-8 w-8" aria-hidden="true"/>
+          <XMarkIcon :style="{opacity: mobileMenuOpen ? 1 : 0}" class="h-8 w-8 absolute" aria-hidden="true"/>
         </button>
       </div>
     </div>
