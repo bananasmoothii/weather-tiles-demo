@@ -26,21 +26,23 @@ import {
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from "@heroicons/vue/20/solid";
 import PrimaryButton from "@/components/buttons/PrimaryButton.vue";
 import LogInButton from "@/components/LogInButton.vue";
+import Brand from "@/components/util/Brand.vue";
 
 export default defineComponent({
   name: "Header",
   data() {
     return {
       mobileMenuOpen: false,
-      links: [
-        { name: "Home", to: "/" },
-        { name: "About", to: "/about" },
-        { name: "Dummy", to: "/" },
-      ],
       lastClosedTime: 0,
     };
   },
+  props: {
+    links: {
+      type: Array as () => { name: string; to: string }[],
+    },
+  },
   components: {
+    Brand,
     LogInButton,
     PrimaryButton,
     TransitionChild,
@@ -91,15 +93,11 @@ export default defineComponent({
     <div class="mx-auto flex max-w-7xl justify-between px-6 py-3">
       <nav class="mx-auto flex grow items-center justify-start gap-8 lg:gap-12 xl:gap-16" aria-label="Navbar">
         <div class="flex">
-          <RouterLink to="/" class="-m-1.5 flex items-center gap-3 p-1.5 text-primary-darker">
-            <img class="h-8 w-8" src="/icon.svg" alt="icon" />
-            <span class="font-header uppercase leading-4">Weather<br />Tiles</span>
-          </RouterLink>
+          <Brand class="-m-1.5" darken />
         </div>
         <div class="hidden grow items-center gap-4 md:flex lg:gap-12">
           <RouterLink
             v-for="link of links"
-            :key="link.to"
             :to="link.to"
             class="rounded-md px-3 py-2.5 font-header uppercase text-gray-900 hover:bg-gray-100"
           >
@@ -157,7 +155,6 @@ export default defineComponent({
                 <div class="-mx-3 space-y-2 py-6">
                   <RouterLink
                     v-for="link in links"
-                    :key="link.to"
                     :to="link.to"
                     @click="modalClose"
                     class="block rounded-lg px-3 py-2 font-header uppercase leading-7 text-gray-900 hover:bg-gray-100"
