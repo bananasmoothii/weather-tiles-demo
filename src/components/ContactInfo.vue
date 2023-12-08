@@ -15,12 +15,12 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="p-4">
-    <div class="flex items-baseline gap-3">
+  <div class="px-4 py-2">
+    <div class="flex items-center gap-3">
       <MapPinIcon class="h-[1em]" />
       <p class="m-0">Number 17<br />Cherry Tree Lane</p>
     </div>
-    <div class="mt-1.5 flex items-baseline gap-3">
+    <div class="mt-1.5 flex items-center gap-3">
       <AtSymbolIcon class="h-[1em]" />
       <a href="mailto://mary@poppins.co.uk">mary@poppins.co.uk</a>
     </div>
