@@ -11,6 +11,7 @@ module.exports = {
         "primary-lighter": "#f1f59f",
         "primary-light": "#fcffbf",
         highlight: "#DF3817",
+        background: "#1F2937",
       },
       fontFamily: {
         header: ["'Arial Black'", "'Arial Black fallback'", "Arial"],

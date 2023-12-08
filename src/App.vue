@@ -20,7 +20,7 @@ export default defineComponent({
 
 <template>
   <Header :links="links" />
-  <div id="main" class="mx-8 mt-20 min-h-[80vh] md:mx-16 md:mt-28 xl:mx-36">
+  <div id="main" class="px-8 pt-20 md:px-16 md:pt-28 xl:px-36">
     <RouterView />
   </div>
   <Footer :links="links" />

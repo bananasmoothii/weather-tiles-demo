@@ -9,11 +9,17 @@
   src: url("./fonts/Arial Black.ttf");
 }
 
+html {
+  background: theme("colors.background");
+}
+
 body {
   overflow-x: hidden;
+  background: white;
 }
 
 header *,
+#main *,
 footer * {
   transition: all 0.3s cubic-bezier(0, 0, 0.2, 1);
 }
@@ -41,6 +47,7 @@ p {
 
     &:hover {
       transform: translate(0, -3px);
+
       &::before {
         width: 100%;
       }
@@ -49,7 +56,7 @@ p {
 }
 
 footer,
-.main {
+#main {
   & a:not(.brand-link) {
     @apply cool-underline-hover;
     font-weight: 600;

@@ -22,12 +22,12 @@ export default defineComponent({
 • Column 2: same navigation items as in the main navigation
 • Column 3: dummy contact information (name, address, phone email)
   -->
-  <footer class="bg-gray-800 p-8 text-white">
+  <footer class="mt-16 bg-background p-8 text-white">
     <div class="flex flex-col gap-8 md:flex-row md:justify-evenly">
       <Brand grow-in-md class="mx-auto md:mx-0" />
       <ul class="flex flex-col px-4">
-        <li v-for="link in links" class="mt-1.5">
-          <RouterLink :to="link.to" class="text-center text-lg md:text-left">
+        <li v-for="link in links" class="mt-1.5 text-center">
+          <RouterLink :to="link.to" class="text-lg md:text-left">
             {{ link.name }}
           </RouterLink>
         </li>

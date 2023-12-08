@@ -5,12 +5,6 @@ import { AtSymbolIcon, MapPinIcon } from "@heroicons/vue/24/outline";
 export default defineComponent({
   name: "ContactInfo",
   components: { MapPinIcon, AtSymbolIcon },
-  props: {
-    center: {
-      type: Boolean,
-      default: false,
-    },
-  },
 });
 </script>
 
