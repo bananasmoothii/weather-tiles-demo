@@ -60,6 +60,7 @@ export default defineComponent({
     async fetchWeather() {
       await api.getCurrentWeatherByCityName({ cityName: this.city }).then((weather: Weather) => {
         this.weather = weather;
+        console.log(weather);
       });
     },
     onBgLoad() {
@@ -171,6 +172,7 @@ export default defineComponent({
         <span class="block text-center font-header text-lg">{{ weather.name }}</span>
         <span class="city-time -mt-1 block text-center text-sm">{{ timeStr }}</span>
         <div class="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1">
+          <span v-for="w in weather.weather" class="max-w-full text-center">{{ w.description }}</span>
           <IconAndText :gap="1">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <title>thermometer</title>
