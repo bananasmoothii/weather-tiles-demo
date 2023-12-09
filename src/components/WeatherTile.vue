@@ -18,17 +18,24 @@ export default defineComponent({
       required: true,
     },
   },
+  methods: {
+    computeTime() {
+      if (!this.weather) return;
+      this.timeStr = new Date(
+        Date.now() +
+          new Date().getTimezoneOffset() * 60000 + // to get UTC time
+          this.weather.timezone * 1000, // to get local time for new city
+      ).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    },
+  },
   mounted() {
     api.getCurrentWeatherByCityName({ cityName: this.city }).then((weather: CurrentResponse) => {
       this.weather = weather;
       console.log(weather);
 
+      this.computeTime();
       this.interval = setInterval(() => {
-        this.timeStr = new Date(
-          Date.now() +
-            new Date().getTimezoneOffset() * 60000 + // to get UTC time
-            weather.timezone * 1000, // to get local time for new city
-        ).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        this.computeTime();
       }, 1000);
     });
   },
