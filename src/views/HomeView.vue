@@ -7,7 +7,19 @@ export default defineComponent({
   components: { WeatherTile },
   data() {
     return {
-      cities: ["Paris", "London", "New York", "Tokyo", "Moscow", "Beijing", "Sydney", "Cairo", "Berlin", "Madrid"],
+      cities: [
+        "Paris",
+        "Vienna",
+        "London",
+        "New York",
+        "Tokyo",
+        "Moscow",
+        "Beijing",
+        "Sydney",
+        "Cairo",
+        "Berlin",
+        "Madrid",
+      ],
     };
   },
 });
