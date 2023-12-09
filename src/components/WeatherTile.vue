@@ -31,6 +31,7 @@ export default defineComponent({
       hovered: false,
       bgLink: "",
       bgLoaded: false,
+      doSlowTransition: true,
     };
   },
   props: {
@@ -60,6 +61,12 @@ export default defineComponent({
       await api.getCurrentWeatherByCityName({ cityName: this.city }).then((weather: Weather) => {
         this.weather = weather;
       });
+    },
+    onBgLoad() {
+      this.bgLoaded = true;
+      setTimeout(() => {
+        this.doSlowTransition = false;
+      }, 1000);
     },
   },
   mounted() {
@@ -138,11 +145,16 @@ export default defineComponent({
     @mouseleave="hovered = false"
   >
     <img
+      ref="bg"
       :src="bgLink"
       alt="Background image"
-      class="no-transition h-full w-full rounded-2xl bg-cover"
-      :class="bgLink && bgLoaded ? (hovered ? 'opacity-100' : 'opacity-80') : 'opacity-0'"
-      @load="bgLoaded = true"
+      class="h-full w-full rounded-2xl bg-cover"
+      :class="
+        (bgLink && bgLoaded ? (hovered ? 'opacity-100' : 'opacity-80') : 'opacity-0') +
+        ' ' +
+        (doSlowTransition ? 'no-transition' : '')
+      "
+      @load="onBgLoad()"
     />
     <div class="weather-tile absolute inset-0 p-6" ref="tile" :class="hovered && 'hovered'">
       <div v-if="weather" class="flex h-full w-full flex-col items-center justify-center">
@@ -220,7 +232,8 @@ export default defineComponent({
   height: min(25rem, 85vw);
   width: min(25rem, 85vw);
 
-  & > img {
+  & > img.no-transition {
+    // fade in when image loads
     transition: opacity 1s ease-out;
   }
 }
