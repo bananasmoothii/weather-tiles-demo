@@ -30,6 +30,7 @@ export default defineComponent({
       intervals: [] as number[],
       hovered: false,
       bgLink: "",
+      bgLoaded: false,
     };
   },
   props: {
@@ -58,7 +59,6 @@ export default defineComponent({
     async fetchWeather() {
       await api.getCurrentWeatherByCityName({ cityName: this.city }).then((weather: Weather) => {
         this.weather = weather;
-        console.log(weather);
       });
     },
   },
@@ -109,9 +109,6 @@ export default defineComponent({
       let cos = xFromCenter / radius;
       let sin = yFromCenter / radius;
 
-      if (Math.abs(cos) < 0.01) cos = 0;
-      if (Math.abs(sin) < 0.01) sin = 0;
-
       let borderPercent = 1 - radius / Math.max(width, height); // 0 when mouse is at the center, 1 when mouse is at the border
       let newRadius = borderPercent * Math.pow(radius, 0.7);
 
@@ -143,8 +140,9 @@ export default defineComponent({
     <img
       :src="bgLink"
       alt="Background image"
-      class="h-full w-full rounded-2xl bg-cover"
-      :class="bgLink ? (hovered ? 'opacity-100' : 'opacity-80') : 'opacity-0'"
+      class="no-transition h-full w-full rounded-2xl bg-cover"
+      :class="bgLink && bgLoaded ? (hovered ? 'opacity-100' : 'opacity-80') : 'opacity-0'"
+      @load="bgLoaded = true"
     />
     <div class="weather-tile absolute inset-0 p-6" ref="tile" :class="hovered && 'hovered'">
       <div v-if="weather" class="flex h-full w-full flex-col items-center justify-center">
@@ -221,6 +219,10 @@ export default defineComponent({
 .weather-link {
   height: min(25rem, 85vw);
   width: min(25rem, 85vw);
+
+  & > img {
+    transition: opacity 1s ease-out;
+  }
 }
 
 .weather-tile {
@@ -228,7 +230,7 @@ export default defineComponent({
   @apply sm:m-14;
 
   border: theme("colors.primary") 1rem solid;
-  //border: 1px rgba(255, 255, 255, 0.2) solid;
+  backdrop-filter: blur(2px);
   box-shadow: 0.2rem 0.2rem 0.2rem 0 rgba(0, 0, 0, 0.3);
 
   transition: all 0.3s ease-out;
@@ -240,14 +242,14 @@ export default defineComponent({
   transform: translate(var(--tx), var(--ty));
 
   border-radius: calc(3rem - var(--hover-percent) * 1.3rem);
-  backdrop-filter: blur(calc(2px + var(--hover-percent) * 3px));
+  //backdrop-filter: blur(calc(2px + var(--hover-percent) * 3px));
   background: rgba(255, 255, 255, calc(0.3 + var(--hover-percent) * 0.1));
 
   &.hovered {
     //transform: translate(0, -0.8rem);
     //border-radius: 1.8rem;
     box-shadow: 0.6rem 1rem 0.4rem 0.2rem rgba(0, 0, 0, 0.3);
-    //backdrop-filter: blur(4px);
+    backdrop-filter: blur(5px);
     //background: rgba(255, 255, 255, 0.4);
   }
 }
