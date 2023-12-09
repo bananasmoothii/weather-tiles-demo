@@ -150,7 +150,7 @@ export default defineComponent({
           leave-to="translate-x-full"
         >
           <DialogPanel>
-            <div class="mt-6 flow-root w-full">
+            <div class="mobile-menu mt-6 flow-root w-full">
               <div class="-my-6">
                 <div class="-mx-3 space-y-2 py-6">
                   <RouterLink

@@ -9,7 +9,9 @@ export default defineComponent({
     return {
       weather: null as CurrentResponse | null,
       timeStr: "",
-      interval: 0,
+      intervals: [] as number[],
+      hovered: false,
+      bgLink: "",
     };
   },
   props: {
@@ -27,55 +29,146 @@ export default defineComponent({
           this.weather.timezone * 1000, // to get local time for new city
       ).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
     },
+    async findBackgroundImage() {
+      let searchResult = await fetch(
+        "https://api.teleport.org/api/urban_areas/slug:" +
+          encodeURIComponent(this.city.toLowerCase().replace(" ", "-")) +
+          "/images/",
+      ).then((res) => res.json());
+      this.bgLink = searchResult.photos[0].image.mobile;
+    },
+    async fetchWeather() {
+      await api.getCurrentWeatherByCityName({ cityName: this.city }).then((weather: CurrentResponse) => {
+        this.weather = weather;
+        console.log(weather);
+      });
+    },
   },
   mounted() {
-    api.getCurrentWeatherByCityName({ cityName: this.city }).then((weather: CurrentResponse) => {
-      this.weather = weather;
-      console.log(weather);
-
+    this.fetchWeather().then(() => {
       this.computeTime();
-      this.interval = setInterval(() => {
-        this.computeTime();
-      }, 1000);
+      this.intervals.push(
+        setInterval(() => {
+          this.computeTime();
+        }, 1000),
+      );
+    });
+
+    this.findBackgroundImage();
+
+    this.intervals.push(
+      setInterval(
+        () => {
+          this.fetchWeather();
+        },
+        1000 * 60 * 5,
+      ),
+    ); // 5 minutes
+
+    // gravity effect
+    function sign(a: number): number {
+      return a < 0 ? -1 : 1;
+    }
+
+    let tileWithBg = this.$el as HTMLElement;
+    let tile = this.$refs.tile as HTMLElement;
+    tileWithBg.addEventListener("mousemove", (e) => {
+      let width = tileWithBg.offsetWidth;
+      let height = tileWithBg.offsetHeight;
+      let centerX = width / 2;
+      let centerY = height / 2;
+      let left = tileWithBg.offsetLeft;
+      let top = tileWithBg.offsetTop;
+      let x = e.pageX - left;
+      let y = e.pageY - top;
+      let xFromCenter = x - centerX;
+      let yFromCenter = y - centerY;
+      let radius = Math.sqrt(xFromCenter * xFromCenter + yFromCenter * yFromCenter);
+      // let angle = Math.atan2(yFromCenter, xFromCenter);
+      let cos = xFromCenter / radius;
+      let sin = yFromCenter / radius;
+
+      if (Math.abs(cos) < 0.01) cos = 0;
+      if (Math.abs(sin) < 0.01) sin = 0;
+
+      let borderPercent = 1 - radius / Math.max(width, height); // 0 when mouse is at the center, 1 when mouse is at the border
+      let newRadius = borderPercent * Math.pow(radius, 0.7);
+
+      tile.style.setProperty("--tx", cos * newRadius + "px"); // (t: transform)
+      tile.style.setProperty("--ty", sin * newRadius + "px");
+      tile.style.setProperty("--hover-percent", borderPercent.toString());
+    });
+    tileWithBg.addEventListener("mouseleave", () => {
+      tile.style.setProperty("--tx", "0");
+      tile.style.setProperty("--ty", "0");
+      tile.style.setProperty("--hover-percent", "0");
     });
   },
   unmounted() {
-    clearInterval(this.interval);
+    for (let interval of this.intervals) {
+      clearInterval(interval);
+    }
   },
 });
 </script>
 
 <template>
-  <div class="weather-tile m-6 h-[16rem] w-[16rem] p-6">
-    <button
-      v-if="weather"
-      class="h-full w-full text-center"
-      @click="$router.push('/weather/' + encodeURIComponent(weather.name))"
-    >
-      <img
-        :src="`https://openweathermap.org/img/w/${weather?.weather[0]?.icon}.png`"
-        alt="Weather icon"
-        height="64"
-        width="64"
-        class="mx-auto"
-      />
-      <span class="-mt-2 block font-header text-lg uppercase">{{ weather.name }}</span>
-      <span class="time -mt-1 block text-center text-sm">{{ timeStr }}</span>
-    </button>
-  </div>
+  <RouterLink
+    :to="'/weather/' + encodeURIComponent(city)"
+    class="weather-link relative h-[18rem] w-[18rem] md:h-[22rem] md:w-[22rem]"
+    @mouseover="hovered = true"
+    @mouseleave="hovered = false"
+  >
+    <img
+      :src="bgLink"
+      alt="Background image"
+      class="h-full w-full rounded-2xl bg-cover"
+      :class="bgLink ? (hovered ? 'opacity-100' : 'opacity-80') : 'opacity-0'"
+    />
+    <div class="weather-tile absolute inset-0 m-6 p-6 md:m-14" ref="tile" :class="hovered && 'hovered'">
+      <div v-if="weather" class="flex h-full w-full flex-col items-center justify-center">
+        <img
+          :src="`https://openweathermap.org/img/wn/${weather?.weather[0]?.icon}@4x.png`"
+          alt="Weather icon"
+          height="100"
+          width="100"
+          class="mx-auto -mt-4"
+        />
+        <span class="-mt-4 block text-center font-header text-lg">{{ weather.name }}</span>
+        <span class="city-time -mt-1 block text-center text-sm">{{ timeStr }}</span>
+      </div>
+    </div>
+  </RouterLink>
 </template>
 
 <style lang="scss">
 .weather-tile {
-  border-radius: 3rem;
   border: theme("colors.primary") 1rem solid;
+  //border: 1px rgba(255, 255, 255, 0.2) solid;
+  box-shadow: 0.2rem 0.2rem 0.2rem 0 rgba(0, 0, 0, 0.3);
 
-  &:hover {
-    transform: translate(0, -0.8rem) rotate(3deg);
+  transition: all 0.3s ease-out;
+
+  // gravity effect
+  --tx: 0;
+  --ty: 0;
+  --hover-percent: 0;
+  transform: translate(var(--tx), var(--ty));
+
+  border-radius: calc(3rem - var(--hover-percent) * 1.3rem);
+  backdrop-filter: blur(calc(2px + var(--hover-percent) * 3px));
+  background: rgba(255, 255, 255, calc(0.3 + var(--hover-percent) * 0.1));
+
+  &.hovered {
+    //transform: translate(0, -0.8rem);
+    //border-radius: 1.8rem;
+    box-shadow: 0.6rem 1rem 0.4rem 0.2rem rgba(0, 0, 0, 0.3);
+    //backdrop-filter: blur(4px);
+    //background: rgba(255, 255, 255, 0.4);
   }
 }
 
-.time {
+.city-time {
   letter-spacing: 3px;
 }
 </style>

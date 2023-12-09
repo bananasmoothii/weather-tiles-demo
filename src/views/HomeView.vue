@@ -11,7 +11,7 @@ export default defineComponent({
         "Paris",
         "London",
         "New York",
-        // "Tokyo",
+        "Tokyo",
         // "Moscow",
         // "Beijing",
         // "Sydney",
@@ -26,7 +26,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="flex flex-wrap gap-10">
+  <div class="flex flex-wrap justify-center gap-2">
     <WeatherTile v-for="city in cities" :city="city" :key="city" />
   </div>
 </template>
