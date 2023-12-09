@@ -48,6 +48,7 @@ p {
 
     &:hover {
       transform: translate(0, -3px);
+      opacity: 1;
 
       &::before {
         width: 100%;
@@ -61,5 +62,6 @@ footer,
   & a:not(.brand-link, .weather-link) {
     @apply cool-underline-hover;
     font-weight: 600;
+    opacity: 0.8;
   }
 }
