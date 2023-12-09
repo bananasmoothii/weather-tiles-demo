@@ -7,3 +7,5 @@ export const api = new OpenWeatherMap({
   language: "fr",
   units: "metric",
 });
+
+api.setUnits("metric");
