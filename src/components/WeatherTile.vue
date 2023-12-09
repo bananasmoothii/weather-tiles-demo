@@ -241,7 +241,7 @@ export default defineComponent({
   --hover-percent: 0;
   transform: translate(var(--tx), var(--ty));
 
-  border-radius: calc(3rem - var(--hover-percent) * 1.3rem);
+  border-radius: calc(3.8rem - var(--hover-percent) * 1.5rem);
   //backdrop-filter: blur(calc(2px + var(--hover-percent) * 3px));
   background: rgba(255, 255, 255, calc(0.3 + var(--hover-percent) * 0.1));
 
