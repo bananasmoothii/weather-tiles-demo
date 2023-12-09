@@ -39,6 +39,10 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    big: {
+      type: Boolean,
+      default: false,
+    },
   },
   methods: {
     computeTime() {
@@ -55,7 +59,8 @@ export default defineComponent({
           encodeURIComponent(this.city.toLowerCase().replace(" ", "-")) +
           "/images/",
       ).then((res) => res.json());
-      this.bgLink = searchResult.photos[0].image.mobile;
+      let images = searchResult.photos[0].image;
+      this.bgLink = this.big ? images.web : images.mobile;
     },
     async fetchWeather() {
       await api.getCurrentWeatherByCityName({ cityName: this.city }).then((weather: Weather) => {
@@ -141,6 +146,7 @@ export default defineComponent({
   <RouterLink
     :to="'/weather/' + encodeURIComponent(city)"
     class="weather-link relative"
+    :class="big && 'weather-big'"
     @mouseover="hovered = true"
     @mouseleave="hovered = false"
   >
@@ -148,9 +154,9 @@ export default defineComponent({
       ref="bg"
       :src="bgLink"
       alt="Background image"
-      class="h-full w-full rounded-2xl bg-cover"
+      class="h-full w-full rounded-2xl bg-cover bg-center object-cover"
       :class="
-        (bgLink && bgLoaded ? (hovered ? 'opacity-100' : 'opacity-80') : 'opacity-0') +
+        (bgLink && bgLoaded ? (hovered || big ? 'opacity-100' : 'opacity-80') : 'opacity-0') +
         ' ' +
         (doSlowTransition ? 'no-transition' : '')
       "
@@ -233,6 +239,10 @@ export default defineComponent({
   height: min(25rem, 85vw);
   width: min(25rem, 85vw);
 
+  &.weather-big {
+    width: 100%;
+  }
+
   & > img.no-transition {
     // fade in when image loads
     transition: opacity 1s ease-out;
@@ -240,8 +250,17 @@ export default defineComponent({
 }
 
 .weather-tile {
-  margin: max(1.5rem, 5vw);
-  @apply sm:m-14;
+  //margin: max(1.5rem, 5vw);
+  //@apply sm:m-14;
+  --pseudo-margin: 1.5rem;
+  @media (min-width: 29rem) {
+    // image size + page padding
+    --pseudo-margin: 3.5rem;
+  }
+
+  width: calc(min(100%, 25rem) - var(--pseudo-margin) * 2);
+  height: calc(min(100%, 25rem) - var(--pseudo-margin) * 2);
+  margin: 0 auto;
 
   border: theme("colors.primary") 1rem solid;
   backdrop-filter: blur(2px);
@@ -253,7 +272,7 @@ export default defineComponent({
   --tx: 0;
   --ty: 0;
   --hover-percent: 0;
-  transform: translate(var(--tx), var(--ty));
+  transform: translateY(var(--pseudo-margin)) translate(var(--tx), var(--ty));
 
   border-radius: calc(3.8rem - var(--hover-percent) * 1.5rem);
   //backdrop-filter: blur(calc(2px + var(--hover-percent) * 3px));

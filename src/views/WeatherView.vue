@@ -10,6 +10,6 @@ export default defineComponent({
 
 <template>
   <div class="flex justify-center">
-    <WeatherTile :city="$route.params.city as string" />
+    <WeatherTile :city="$route.params.city as string" big />
   </div>
 </template>
