@@ -60,7 +60,6 @@ export default defineComponent({
     async fetchWeather() {
       await api.getCurrentWeatherByCityName({ cityName: this.city }).then((weather: Weather) => {
         this.weather = weather;
-        console.log(weather);
       });
     },
     onBgLoad() {
