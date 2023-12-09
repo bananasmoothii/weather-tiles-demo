@@ -88,6 +88,12 @@ export default defineComponent({
     let tileWithBg = this.$el as HTMLElement;
     let tile = this.$refs.tile as HTMLElement;
     tileWithBg.addEventListener("mousemove", (e) => {
+      // no animation on mobile
+      if (Math.min(window.innerWidth, window.innerHeight) < 640) {
+        tile.style.setProperty("--hover-percent", "1");
+        return;
+      }
+
       let width = tileWithBg.offsetWidth;
       let height = tileWithBg.offsetHeight;
       let centerX = width / 2;
