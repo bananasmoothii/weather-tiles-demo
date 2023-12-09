@@ -1,31 +1,32 @@
 <script lang="ts">
 import { defineComponent } from "vue";
+import WeatherTile from "@/components/WeatherTile.vue";
 
 export default defineComponent({
   name: "HomeView",
+  components: { WeatherTile },
+  data() {
+    return {
+      cities: [
+        "Paris",
+        "London",
+        "New York",
+        // "Tokyo",
+        // "Moscow",
+        // "Beijing",
+        // "Sydney",
+        // "Cairo",
+        // "Rio de Janeiro",
+        // "Berlin",
+        // "Madrid",
+      ],
+    };
+  },
 });
 </script>
 
 <template>
-  <div class="mb-96">
-    <h1>Home</h1>
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </p>
-  </div>
-  <div class="mb-96">
-    <h1>Home</h1>
-  </div>
-  <div class="mb-96">
-    <h1>Home</h1>
-  </div>
-  <div class="mb-96">
-    <h1>Home</h1>
-  </div>
-  <div class="mb-96">
-    <h1>Home</h1>
+  <div class="flex flex-wrap gap-10">
+    <WeatherTile v-for="city in cities" :city="city" :key="city" />
   </div>
 </template>
