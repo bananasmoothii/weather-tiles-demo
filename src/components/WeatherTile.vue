@@ -162,15 +162,15 @@ export default defineComponent({
         <span class="city-time -mt-1 block text-center text-sm">{{ timeStr }}</span>
         <div class="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1">
           <IconAndText :gap="1">
-            <HandRaisedIcon />
-            <span>{{ weather.main.feels_like }}°C</span>
-          </IconAndText>
-          <IconAndText :gap="1">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <title>thermometer</title>
               <path d="M15 13V5A3 3 0 0 0 9 5V13A5 5 0 1 0 15 13M12 4A1 1 0 0 1 13 5V8H11V5A1 1 0 0 1 12 4Z" />
             </svg>
-            <span>{{ weather.main.temp }}°C</span>
+            <span>{{ Math.round(weather.main.temp) }}°C</span>
+          </IconAndText>
+          <IconAndText :gap="1">
+            <HandRaisedIcon />
+            <span>{{ Math.round(weather.main.feels_like) }}°C</span>
           </IconAndText>
           <IconAndText :gap="1">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -179,7 +179,7 @@ export default defineComponent({
                 d="M12,3.25C12,3.25 6,10 6,14C6,17.32 8.69,20 12,20A6,6 0 0,0 18,14C18,10 12,3.25 12,3.25M14.47,9.97L15.53,11.03L9.53,17.03L8.47,15.97M9.75,10A1.25,1.25 0 0,1 11,11.25A1.25,1.25 0 0,1 9.75,12.5A1.25,1.25 0 0,1 8.5,11.25A1.25,1.25 0 0,1 9.75,10M14.25,14.5A1.25,1.25 0 0,1 15.5,15.75A1.25,1.25 0 0,1 14.25,17A1.25,1.25 0 0,1 13,15.75A1.25,1.25 0 0,1 14.25,14.5Z"
               />
             </svg>
-            <span>{{ weather.main.humidity }}%</span>
+            <span>{{ Math.round(weather.main.humidity) }}%</span>
           </IconAndText>
           <IconAndText v-if="weather.rain" :gap="1">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -188,8 +188,8 @@ export default defineComponent({
                 d="M6,14.03A1,1 0 0,1 7,15.03C7,15.58 6.55,16.03 6,16.03C3.24,16.03 1,13.79 1,11.03C1,8.27 3.24,6.03 6,6.03C7,3.68 9.3,2.03 12,2.03C15.43,2.03 18.24,4.69 18.5,8.06L19,8.03A4,4 0 0,1 23,12.03C23,14.23 21.21,16.03 19,16.03H18C17.45,16.03 17,15.58 17,15.03C17,14.47 17.45,14.03 18,14.03H19A2,2 0 0,0 21,12.03A2,2 0 0,0 19,10.03H17V9.03C17,6.27 14.76,4.03 12,4.03C9.5,4.03 7.45,5.84 7.06,8.21C6.73,8.09 6.37,8.03 6,8.03A3,3 0 0,0 3,11.03A3,3 0 0,0 6,14.03M12,14.15C12.18,14.39 12.37,14.66 12.56,14.94C13,15.56 14,17.03 14,18C14,19.11 13.1,20 12,20A2,2 0 0,1 10,18C10,17.03 11,15.56 11.44,14.94C11.63,14.66 11.82,14.4 12,14.15M12,11.03L11.5,11.59C11.5,11.59 10.65,12.55 9.79,13.81C8.93,15.06 8,16.56 8,18A4,4 0 0,0 12,22A4,4 0 0,0 16,18C16,16.56 15.07,15.06 14.21,13.81C13.35,12.55 12.5,11.59 12.5,11.59"
               />
             </svg>
-            <span v-if="weather.rain['3h']">{{ weather.rain["3h"] }} mm</span>
-            <span v-else>{{ weather.rain["1h"] }} mm</span>
+            <span v-if="weather.rain['3h']">{{ Math.round(weather.rain["3h"] * 10) / 10 }} mm</span>
+            <span v-else>{{ Math.round(weather.rain["1h"]! * 10) / 10 }} mm</span>
           </IconAndText>
           <IconAndText v-if="weather.snow" :gap="1">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -198,8 +198,8 @@ export default defineComponent({
                 d="M6,14A1,1 0 0,1 7,15A1,1 0 0,1 6,16A5,5 0 0,1 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16H18A1,1 0 0,1 17,15A1,1 0 0,1 18,14H19A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11A3,3 0 0,0 6,14M7.88,18.07L10.07,17.5L8.46,15.88C8.07,15.5 8.07,14.86 8.46,14.46C8.85,14.07 9.5,14.07 9.88,14.46L11.5,16.07L12.07,13.88C12.21,13.34 12.76,13.03 13.29,13.17C13.83,13.31 14.14,13.86 14,14.4L13.41,16.59L15.6,16C16.14,15.86 16.69,16.17 16.83,16.71C16.97,17.24 16.66,17.79 16.12,17.93L13.93,18.5L15.54,20.12C15.93,20.5 15.93,21.15 15.54,21.54C15.15,21.93 14.5,21.93 14.12,21.54L12.5,19.93L11.93,22.12C11.79,22.66 11.24,22.97 10.71,22.83C10.17,22.69 9.86,22.14 10,21.6L10.59,19.41L8.4,20C7.86,20.14 7.31,19.83 7.17,19.29C7.03,18.76 7.34,18.21 7.88,18.07Z"
               />
             </svg>
-            <span v-if="weather.snow['3h']">{{ weather.snow["3h"] }} mm</span>
-            <span v-else>{{ weather.snow["1h"] }} mm</span>
+            <span v-if="weather.snow['3h']">{{ Math.round(weather.snow["3h"]) }} mm</span>
+            <span v-else>{{ Math.round(weather.snow["1h"]!) }} mm</span>
           </IconAndText>
           <IconAndText :gap="1">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -208,7 +208,7 @@ export default defineComponent({
                 d="M4,10A1,1 0 0,1 3,9A1,1 0 0,1 4,8H12A2,2 0 0,0 14,6A2,2 0 0,0 12,4C11.45,4 10.95,4.22 10.59,4.59C10.2,5 9.56,5 9.17,4.59C8.78,4.2 8.78,3.56 9.17,3.17C9.9,2.45 10.9,2 12,2A4,4 0 0,1 16,6A4,4 0 0,1 12,10H4M19,12A1,1 0 0,0 20,11A1,1 0 0,0 19,10C18.72,10 18.47,10.11 18.29,10.29C17.9,10.68 17.27,10.68 16.88,10.29C16.5,9.9 16.5,9.27 16.88,8.88C17.42,8.34 18.17,8 19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14H5A1,1 0 0,1 4,13A1,1 0 0,1 5,12H19M18,18H4A1,1 0 0,1 3,17A1,1 0 0,1 4,16H18A3,3 0 0,1 21,19A3,3 0 0,1 18,22C17.17,22 16.42,21.66 15.88,21.12C15.5,20.73 15.5,20.1 15.88,19.71C16.27,19.32 16.9,19.32 17.29,19.71C17.47,19.89 17.72,20 18,20A1,1 0 0,0 19,19A1,1 0 0,0 18,18Z"
               />
             </svg>
-            <span>{{ weather.wind.speed }} km/h</span>
+            <span>{{ Math.round(weather.wind.speed) }} km/h</span>
             <ArrowLongUpIcon :style="{ transform: 'rotate(' + weather.wind.deg + 'deg)' }" />
           </IconAndText>
         </div>
