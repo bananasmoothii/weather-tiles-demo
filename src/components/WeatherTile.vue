@@ -59,10 +59,8 @@ export default defineComponent({
         width="64"
         class="mx-auto"
       />
-      <h2 class="text-center font-header text-lg uppercase">
-        {{ weather.name }}
-        ({{ timeStr }})
-      </h2>
+      <span class="-mt-2 block font-header text-lg uppercase">{{ weather.name }}</span>
+      <span class="time -mt-1 block text-center text-sm">{{ timeStr }}</span>
     </button>
   </div>
 </template>
@@ -75,5 +73,9 @@ export default defineComponent({
   &:hover {
     transform: translate(0, -0.8rem) rotate(3deg);
   }
+}
+
+.time {
+  letter-spacing: 3px;
 }
 </style>
