@@ -83,7 +83,7 @@ export default defineComponent({
       let y = e.pageY - top;
       let xFromCenter = x - centerX;
       let yFromCenter = y - centerY;
-      let radius = Math.sqrt(xFromCenter * xFromCenter + yFromCenter * yFromCenter);
+      let radius = Math.max(Math.sqrt(xFromCenter * xFromCenter + yFromCenter * yFromCenter), 0.0001);
       // let angle = Math.atan2(yFromCenter, xFromCenter);
       let cos = xFromCenter / radius;
       let sin = yFromCenter / radius;
@@ -115,7 +115,7 @@ export default defineComponent({
 <template>
   <RouterLink
     :to="'/weather/' + encodeURIComponent(city)"
-    class="weather-link relative h-[18rem] w-[18rem] md:h-[22rem] md:w-[22rem]"
+    class="weather-link relative"
     @mouseover="hovered = true"
     @mouseleave="hovered = false"
   >
@@ -125,7 +125,7 @@ export default defineComponent({
       class="h-full w-full rounded-2xl bg-cover"
       :class="bgLink ? (hovered ? 'opacity-100' : 'opacity-80') : 'opacity-0'"
     />
-    <div class="weather-tile absolute inset-0 m-6 p-6 md:m-14" ref="tile" :class="hovered && 'hovered'">
+    <div class="weather-tile absolute inset-0 p-6" ref="tile" :class="hovered && 'hovered'">
       <div v-if="weather" class="flex h-full w-full flex-col items-center justify-center">
         <img
           :src="`https://openweathermap.org/img/wn/${weather?.weather[0]?.icon}@4x.png`"
@@ -142,7 +142,15 @@ export default defineComponent({
 </template>
 
 <style lang="scss">
+.weather-link {
+  height: min(22rem, 75vw);
+  width: min(22rem, 75vw);
+}
+
 .weather-tile {
+  margin: max(1.5rem, 5vw);
+  @apply sm:m-14;
+
   border: theme("colors.primary") 1rem solid;
   //border: 1px rgba(255, 255, 255, 0.2) solid;
   box-shadow: 0.2rem 0.2rem 0.2rem 0 rgba(0, 0, 0, 0.3);
