@@ -199,9 +199,9 @@ export default defineComponent({
     <div class="weather-tile absolute inset-0 p-6" ref="tile" :class="hovered && 'hovered'">
       <div class="h-full w-full" :class="weather?.main || error ? 'opacity-100' : 'opacity-0'">
         <div v-if="weather?.main" class="flex h-full w-full flex-col items-center justify-center">
-          <div class="flex items-center">
+          <div class="flex items-center justify-center">
             <img
-              v-for="w in weather.weather"
+              v-for="w in weather.weather.slice(0, 3)"
               :src="`https://openweathermap.org/img/wn/${w.icon}@4x.png`"
               alt="Weather icon"
               height="75"
@@ -212,7 +212,7 @@ export default defineComponent({
           <span class="block text-center font-header text-lg">{{ weather.name }}, {{ weather.sys.country }}</span>
           <span class="city-time -mt-1 block text-center text-sm">{{ timeStr }}</span>
           <div class="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1">
-            <span v-for="w in weather.weather" class="max-w-full text-center">{{ w.description }}</span>
+            <span v-for="w in weather.weather.slice(0, 4)" class="max-w-full text-center">{{ w.description }}</span>
             <IconAndText :gap="1">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <title>thermometer</title>
