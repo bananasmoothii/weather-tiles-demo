@@ -67,3 +67,26 @@ footer,
     opacity: 0.8;
   }
 }
+
+h1,
+h2,
+h3 {
+  @apply font-header underline;
+}
+
+h2 {
+  @apply text-lg;
+
+  /*
+  position: relative;
+  &::before {
+    content: "";
+    display: block;
+    background: theme("colors.primary");
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+  }*/
+}

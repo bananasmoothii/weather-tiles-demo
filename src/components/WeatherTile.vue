@@ -76,9 +76,13 @@ export default defineComponent({
       this.bgLink = this.big ? images.web : images.mobile;
     },
     async fetchWeather() {
-      await api
+      api
         .getCurrentWeatherByCityName({ cityName: this.city })
         .then((weather: Weather) => {
+          if (weather.cod !== 200) {
+            this.error = true;
+            return;
+          }
           this.weather = weather;
           this.$emit("localizedCityName", weather.name);
         })
@@ -160,6 +164,7 @@ export default defineComponent({
   },
   watch: {
     city() {
+      this.weather = null;
       this.error = false;
       this.fetchWeather().then(() => {
         this.computeTime();
@@ -168,6 +173,9 @@ export default defineComponent({
       this.bgLoaded = false;
       this.bgLink = "";
       this.findBackgroundImage();
+    },
+    error(e) {
+      console.log("error:", e);
     },
   },
 });
@@ -194,7 +202,7 @@ export default defineComponent({
       @load="onBgLoad()"
     />
     <div class="weather-tile absolute inset-0 p-6" ref="tile" :class="hovered && 'hovered'">
-      <div class="h-full w-full" :class="weather?.main || !error ? 'opacity-100' : 'opacity-0'">
+      <div class="h-full w-full" :class="weather?.main || error ? 'opacity-100' : 'opacity-0'">
         <div v-if="weather?.main" class="flex h-full w-full flex-col items-center justify-center">
           <div class="flex items-center">
             <img
@@ -262,7 +270,7 @@ export default defineComponent({
             </IconAndText>
           </div>
         </div>
-        <div v-else class="flex h-full w-full flex-col items-center justify-center">
+        <div v-else-if="error" class="flex h-full w-full flex-col items-center justify-center">
           <!-- No result for this city -->
           <ArchiveBoxXMarkIcon class="mx-auto h-12 w-12" />
           <span class="text-center">Nothing found for {{ city }}</span>

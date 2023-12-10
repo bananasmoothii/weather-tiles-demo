@@ -11,7 +11,7 @@ export default defineComponent({
       links: [
         { name: "Home", to: "/" },
         { name: "About", to: "/about" },
-        { name: "Dummy", to: "/" },
+        { name: "Edit", to: "/edit" },
       ],
     };
   },

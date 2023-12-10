@@ -3,8 +3,7 @@ import { defineComponent } from "vue";
 import WeatherTile from "@/components/WeatherTile.vue";
 import { searchFilter } from "@/main";
 import { add } from "husky";
-
-type City = { name: string; localized?: string };
+import { cities, type City } from "@/cities";
 
 export default defineComponent({
   name: "HomeView",
@@ -12,28 +11,6 @@ export default defineComponent({
   components: { WeatherTile },
   data() {
     return {
-      cities: [
-        "Paris",
-        "Grenoble",
-        "Vienna",
-        "Hamburg",
-        "Berlin",
-        "London",
-        "New York",
-        "Tokyo",
-        "Moscow",
-        "Copenhagen",
-        "Stockholm",
-        "Amsterdam",
-        "Montreal",
-        "Beijing",
-        "Sydney",
-        "Cairo",
-        "Madrid",
-        "Lisbon",
-        "Athens",
-        "Dubai",
-      ].map((name: string) => ({ name: name })) as City[],
       additionalSearchCityLocalizedName: undefined as string | undefined,
     };
   },
@@ -42,9 +19,9 @@ export default defineComponent({
       return searchFilter;
     },
     filteredCities() {
-      if (searchFilter.value.length < 3) return this.cities;
+      if (searchFilter.value.length < 3) return cities.value;
       let searchString = searchFilter.value.toLowerCase().trim();
-      return this.cities.filter(
+      return cities.value.filter(
         (city: City) =>
           city.name.toLowerCase().includes(searchString) || city.localized?.toLowerCase().includes(searchString),
       );
@@ -58,7 +35,7 @@ export default defineComponent({
     <WeatherTile
       v-for="city in filteredCities"
       :city="city.name"
-      :key="city.name"
+      :key="city.randomId"
       @localizedCityName="(n) => (city.localized = n)"
     />
     <WeatherTile

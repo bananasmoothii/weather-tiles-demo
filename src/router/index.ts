@@ -21,6 +21,11 @@ const router = createRouter({
       component: () => import("../views/WeatherView.vue"),
       props: true,
     },
+    {
+      path: "/edit",
+      name: "edit",
+      component: () => import("../views/EditView.vue"),
+    },
   ],
 });
 

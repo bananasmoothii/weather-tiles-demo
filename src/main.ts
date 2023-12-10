@@ -5,7 +5,7 @@ import App from "./App.vue";
 import router from "./router";
 
 // the text of the search input
-export let searchFilter = ref("");
+export const searchFilter = ref("");
 
 router.afterEach((newRoute, oldRoute) => {
   if (newRoute.query.s === oldRoute.query.s) return;
