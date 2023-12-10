@@ -48,6 +48,11 @@ export default defineComponent({
     removeCity(city: City) {
       cities.splice(cities.indexOf(city), 1);
     },
+    addCity() {
+      if (this.newCityName.trim() === "") return;
+      cities.splice(0, 0, nameToCity(this.newCityName));
+      this.newCityName = "";
+    },
   },
 });
 </script>
@@ -59,15 +64,7 @@ export default defineComponent({
     <ul class="mx-auto mb-8 max-w-xl">
       <li class="city-li">
         <PlusIcon />
-        <input
-          type="text"
-          placeholder="Add city"
-          v-model="newCityName"
-          @keyup.enter="
-            cities.splice(0, 0, nameToCity(newCityName));
-            newCityName = '';
-          "
-        />
+        <input type="text" placeholder="Add city" v-model="newCityName" @keyup.enter="addCity" @focusout="addCity" />
       </li>
     </ul>
     <VueDraggable
