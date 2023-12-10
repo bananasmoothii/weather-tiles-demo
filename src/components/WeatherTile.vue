@@ -3,7 +3,7 @@ import { defineComponent } from "vue";
 import type { CurrentResponse } from "openweathermap-ts/dist/types";
 import { api } from "@/weather";
 import IconAndText from "@/components/util/IconAndText.vue";
-import { ArrowLongUpIcon, HandRaisedIcon } from "@heroicons/vue/24/outline";
+import { ArchiveBoxXMarkIcon, ArrowLongUpIcon, HandRaisedIcon } from "@heroicons/vue/24/outline";
 
 type Weather = CurrentResponse & {
   rain?: {
@@ -22,6 +22,7 @@ export default defineComponent({
     IconAndText,
     HandRaisedIcon,
     ArrowLongUpIcon,
+    ArchiveBoxXMarkIcon,
   },
   data() {
     return {
@@ -32,6 +33,7 @@ export default defineComponent({
       bgLink: "",
       bgLoaded: false,
       doSlowTransition: true,
+      error: false,
     };
   },
   props: {
@@ -61,14 +63,28 @@ export default defineComponent({
         "https://api.teleport.org/api/urban_areas/slug:" +
           encodeURIComponent(this.city.toLowerCase().replace(" ", "-")) +
           "/images/",
-      ).then((res) => res.json());
-      let images = searchResult.photos[0].image;
+      )
+        .then((res) => {
+          if (!res.ok) return;
+          return res.json();
+        })
+        .catch(() => {});
+      if (!searchResult) return;
+      let photos = searchResult.photos;
+      if (!photos) return;
+      let images = photos[Math.floor(Math.random() * photos.length)].image;
       this.bgLink = this.big ? images.web : images.mobile;
     },
     async fetchWeather() {
-      await api.getCurrentWeatherByCityName({ cityName: this.city }).then((weather: Weather) => {
-        this.weather = weather;
-      });
+      await api
+        .getCurrentWeatherByCityName({ cityName: this.city })
+        .then((weather: Weather) => {
+          this.weather = weather;
+          this.$emit("localizedCityName", weather.name);
+        })
+        .catch(() => {
+          this.error = true;
+        });
     },
     onBgLoad() {
       this.bgLoaded = true;
@@ -142,12 +158,24 @@ export default defineComponent({
       clearInterval(interval);
     }
   },
+  watch: {
+    city() {
+      this.error = false;
+      this.fetchWeather().then(() => {
+        this.computeTime();
+      });
+      this.doSlowTransition = true;
+      this.bgLoaded = false;
+      this.bgLink = "";
+      this.findBackgroundImage();
+    },
+  },
 });
 </script>
 
 <template>
   <RouterLink
-    :to="'/weather/' + encodeURIComponent(city)"
+    :to="weather?.main && !error ? '/weather/' + encodeURIComponent(city) : '/'"
     class="weather-link relative"
     :class="big && 'weather-big'"
     @mouseover="hovered = true"
@@ -166,8 +194,8 @@ export default defineComponent({
       @load="onBgLoad()"
     />
     <div class="weather-tile absolute inset-0 p-6" ref="tile" :class="hovered && 'hovered'">
-      <div :class="weather ? 'opacity-100' : 'opacity-0'">
-        <div v-if="weather" class="flex h-full w-full flex-col items-center justify-center">
+      <div class="h-full w-full" :class="weather?.main || !error ? 'opacity-100' : 'opacity-0'">
+        <div v-if="weather?.main" class="flex h-full w-full flex-col items-center justify-center">
           <div class="flex items-center">
             <img
               v-for="w in weather.weather"
@@ -178,7 +206,7 @@ export default defineComponent({
               class="scale-[1.4]"
             />
           </div>
-          <span class="block text-center font-header text-lg">{{ weather.name }}</span>
+          <span class="block text-center font-header text-lg">{{ weather.name }}, {{ weather.sys.country }}</span>
           <span class="city-time -mt-1 block text-center text-sm">{{ timeStr }}</span>
           <div class="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1">
             <span v-for="w in weather.weather" class="max-w-full text-center">{{ w.description }}</span>
@@ -233,6 +261,11 @@ export default defineComponent({
               <ArrowLongUpIcon :style="{ transform: 'rotate(' + weather.wind.deg + 'deg)' }" />
             </IconAndText>
           </div>
+        </div>
+        <div v-else class="flex h-full w-full flex-col items-center justify-center">
+          <!-- No result for this city -->
+          <ArchiveBoxXMarkIcon class="mx-auto h-12 w-12" />
+          <span class="text-center">Nothing found for {{ city }}</span>
         </div>
       </div>
     </div>

@@ -2,9 +2,13 @@
 import { defineComponent } from "vue";
 import WeatherTile from "@/components/WeatherTile.vue";
 import { searchFilter } from "@/main";
+import { add } from "husky";
+
+type City = { name: string; localized?: string };
 
 export default defineComponent({
   name: "HomeView",
+  methods: { add },
   components: { WeatherTile },
   data() {
     return {
@@ -29,13 +33,21 @@ export default defineComponent({
         "Lisbon",
         "Athens",
         "Dubai",
-      ],
+      ].map((name: string) => ({ name: name })) as City[],
+      additionalSearchCityLocalizedName: undefined as string | undefined,
     };
   },
   computed: {
+    searchFilter() {
+      return searchFilter;
+    },
     filteredCities() {
       if (searchFilter.value.length < 3) return this.cities;
-      return this.cities.filter((city: string) => city.toLowerCase().includes(searchFilter.value.toLowerCase()));
+      let searchString = searchFilter.value.toLowerCase().trim();
+      return this.cities.filter(
+        (city: City) =>
+          city.name.toLowerCase().includes(searchString) || city.localized?.toLowerCase().includes(searchString),
+      );
     },
   },
 });
@@ -43,6 +55,18 @@ export default defineComponent({
 
 <template>
   <div class="flex flex-wrap justify-center gap-2">
-    <WeatherTile v-for="city in filteredCities" :city="city" :key="city" />
+    <WeatherTile
+      v-for="city in filteredCities"
+      :city="city.name"
+      :key="city.name"
+      @localizedCityName="(n) => (city.localized = n)"
+    />
+    <WeatherTile
+      v-if="
+        searchFilter.value.length >= 3 && !filteredCities.some((c) => c.localized === additionalSearchCityLocalizedName)
+      "
+      :city="searchFilter.value"
+      @localizedCityName="(n) => (additionalSearchCityLocalizedName = n)"
+    />
   </div>
 </template>
