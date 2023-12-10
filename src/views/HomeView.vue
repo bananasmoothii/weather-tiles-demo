@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import WeatherTile from "@/components/WeatherTile.vue";
+import { searchFilter } from "@/main";
 
 export default defineComponent({
   name: "HomeView",
@@ -31,11 +32,17 @@ export default defineComponent({
       ],
     };
   },
+  computed: {
+    filteredCities() {
+      if (searchFilter.value.length < 3) return this.cities;
+      return this.cities.filter((city: string) => city.toLowerCase().includes(searchFilter.value.toLowerCase()));
+    },
+  },
 });
 </script>
 
 <template>
   <div class="flex flex-wrap justify-center gap-2">
-    <WeatherTile v-for="city in cities" :city="city" :key="city" />
+    <WeatherTile v-for="city in filteredCities" :city="city" :key="city" />
   </div>
 </template>

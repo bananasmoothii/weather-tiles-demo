@@ -250,8 +250,8 @@ export default defineComponent({
 }
 
 .weather-tile {
-  //margin: max(1.5rem, 5vw);
-  //@apply sm:m-14;
+  // I use a "pseudo-margin" in order to have a square tile even when the background is larger / stretched like on the
+  // /weather/city page
   --pseudo-margin: 1.5rem;
   @media (min-width: 29rem) {
     // image size + page padding
@@ -260,7 +260,7 @@ export default defineComponent({
 
   width: calc(min(100%, 25rem) - var(--pseudo-margin) * 2);
   height: calc(min(100%, 25rem) - var(--pseudo-margin) * 2);
-  margin: 0 auto;
+  margin: var(--pseudo-margin) auto 0 auto;
 
   border: theme("colors.primary") 1rem solid;
   backdrop-filter: blur(2px);
@@ -272,18 +272,14 @@ export default defineComponent({
   --tx: 0;
   --ty: 0;
   --hover-percent: 0;
-  transform: translateY(var(--pseudo-margin)) translate(var(--tx), var(--ty));
+  transform: translate(var(--tx), var(--ty));
 
   border-radius: calc(3.8rem - var(--hover-percent) * 1.5rem);
-  //backdrop-filter: blur(calc(2px + var(--hover-percent) * 3px));
   background: rgba(255, 255, 255, calc(0.3 + var(--hover-percent) * 0.1));
 
   &.hovered {
-    //transform: translate(0, -0.8rem);
-    //border-radius: 1.8rem;
     box-shadow: 0.6rem 1rem 0.4rem 0.2rem rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(5px);
-    //background: rgba(255, 255, 255, 0.4);
   }
 }
 

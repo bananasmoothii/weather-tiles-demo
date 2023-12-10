@@ -27,6 +27,7 @@ import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from "@heroicons/vue/20/so
 import PrimaryButton from "@/components/buttons/PrimaryButton.vue";
 import LogInButton from "@/components/LogInButton.vue";
 import Brand from "@/components/util/Brand.vue";
+import { searchFilter } from "@/main";
 
 export default defineComponent({
   name: "Header",
@@ -85,6 +86,16 @@ export default defineComponent({
       this.lastClosedTime = Date.now();
     },
   },
+  watch: {
+    "$route.path"(newPath: string) {
+      if (newPath !== "/") searchFilter.value = "";
+    },
+  },
+  computed: {
+    searchFilter() {
+      return searchFilter;
+    },
+  },
 });
 </script>
 
@@ -105,11 +116,12 @@ export default defineComponent({
           </RouterLink>
           <div class="grow">
             <input
+              v-if="$route.path === '/'"
               type="search"
               name="search"
-              id="search"
               class="h-10 w-[7rem] rounded-lg border-[1px] border-gray-300 bg-gray-200 bg-opacity-50 p-2 focus:w-[90%] lg:w-[9rem] lg:focus:w-[80%] xl:w-[12rem] xl:focus:w-[24rem]"
               placeholder="Search..."
+              v-model="searchFilter.value"
             />
           </div>
         </div>
@@ -163,11 +175,13 @@ export default defineComponent({
                   </RouterLink>
                 </div>
                 <input
+                  v-if="$route.path === '/'"
                   type="search"
                   name="search"
-                  id="search"
                   class="mb-4 h-10 w-full rounded-lg border-[1px] border-gray-300 bg-gray-200 bg-opacity-50 p-2"
                   placeholder="Search..."
+                  v-model="searchFilter.value"
+                  @keyup.enter="modalClose"
                 />
                 <div class="py-6">
                   <LogInButton @click="modalClose" />
