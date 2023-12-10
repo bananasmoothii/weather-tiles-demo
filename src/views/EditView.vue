@@ -49,9 +49,11 @@ export default defineComponent({
       cities.splice(cities.indexOf(city), 1);
     },
     addCity() {
-      if (this.newCityName.trim() === "") return;
-      cities.splice(0, 0, nameToCity(this.newCityName));
+      let newCityName = this.newCityName.trim();
+      if (newCityName === "") return;
+      cities.splice(0, 0, nameToCity(newCityName));
       this.newCityName = "";
+      document.getElementById("city-add-input")?.focus();
     },
   },
 });
@@ -64,7 +66,14 @@ export default defineComponent({
     <ul class="mx-auto mb-8 max-w-xl">
       <li class="city-li">
         <PlusIcon />
-        <input type="text" placeholder="Add city" v-model="newCityName" @keyup.enter="addCity" @focusout="addCity" />
+        <input
+          type="text"
+          id="city-add-input"
+          placeholder="Add city"
+          v-model="newCityName"
+          @keyup.enter="addCity"
+          @focusout="addCity"
+        />
       </li>
     </ul>
     <VueDraggable
