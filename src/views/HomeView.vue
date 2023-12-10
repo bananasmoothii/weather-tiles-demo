@@ -19,9 +19,9 @@ export default defineComponent({
       return searchFilter;
     },
     filteredCities() {
-      if (searchFilter.value.length < 3) return cities.value;
+      if (searchFilter.value.length < 3) return cities;
       let searchString = searchFilter.value.toLowerCase().trim();
-      return cities.value.filter(
+      return cities.filter(
         (city: City) =>
           city.name.toLowerCase().includes(searchString) || city.localized?.toLowerCase().includes(searchString),
       );

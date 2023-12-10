@@ -1,4 +1,4 @@
-import { ref, watch } from "vue";
+import { reactive, watch } from "vue";
 
 export type City = {
   name: string;
@@ -27,10 +27,10 @@ let defaultCities: City[] = [
   "Lisbon",
   "Athens",
   "Dubai",
-].map((name) => ({ name: name, randomId: Math.random() }));
+].map(nameToCity);
 
 let localCities = localStorage.getItem("cities");
-export const cities = ref(localCities ? JSON.parse(localCities) : defaultCities);
+export const cities: City[] = reactive(localCities ? JSON.parse(localCities) : defaultCities);
 
 export function nameToCity(name: string): City {
   return { name: name, randomId: Math.random() };
@@ -39,3 +39,7 @@ export function nameToCity(name: string): City {
 watch(cities, (newCities) => {
   localStorage.setItem("cities", JSON.stringify(newCities));
 });
+
+export function resetCities() {
+  cities.splice(0, cities.length, ...defaultCities);
+}

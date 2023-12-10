@@ -18,6 +18,7 @@
     "@heroicons/vue": "^2.0.18",
     "openweathermap-ts": "^1.2.10",
     "vue": "^3.3.4",
+    "vue-draggable-plus": "^0.3.1",
     "vue-router": "^4.2.2",
     "vuedraggable": "^4.1.0"
   },

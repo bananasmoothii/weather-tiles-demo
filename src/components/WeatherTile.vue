@@ -76,7 +76,7 @@ export default defineComponent({
       this.bgLink = this.big ? images.web : images.mobile;
     },
     async fetchWeather() {
-      api
+      await api
         .getCurrentWeatherByCityName({ cityName: this.city })
         .then((weather: Weather) => {
           if (weather.cod !== 200) {
@@ -85,6 +85,7 @@ export default defineComponent({
           }
           this.weather = weather;
           this.$emit("localizedCityName", weather.name);
+          this.computeTime();
         })
         .catch(() => {
           this.error = true;
@@ -99,7 +100,6 @@ export default defineComponent({
   },
   mounted() {
     this.fetchWeather().then(() => {
-      this.computeTime();
       this.intervals.push(
         setInterval(() => {
           this.computeTime();
@@ -166,9 +166,7 @@ export default defineComponent({
     city() {
       this.weather = null;
       this.error = false;
-      this.fetchWeather().then(() => {
-        this.computeTime();
-      });
+      this.fetchWeather();
       this.doSlowTransition = true;
       this.bgLoaded = false;
       this.bgLink = "";
