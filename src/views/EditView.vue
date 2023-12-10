@@ -73,14 +73,14 @@ export default defineComponent({
     <VueDraggable
       class="mx-auto mb-8 max-w-xl"
       v-model="cities"
-      :animation="500"
+      :animation="300"
       @start="drag = true"
       @end="nextTick(() => (drag = false))"
       target=".sort-target"
       handle=".handle"
     >
       <TransitionGroup tag="ul" type="transition" class="sort-target" :name="drag ? undefined : 'fade'">
-        <li v-for="(element, index) in cities" class="city-li" :key="element.randomId">
+        <li v-for="(element, index) in cities" class="no-transition city-li" :key="element.randomId">
           <span class="handle cursor-move">{{ index + 1 }}.</span>
           <input type="text" :id="`city-name-${element.randomId}`" v-model="element.name" />
           <button @click="editCity(element)">
