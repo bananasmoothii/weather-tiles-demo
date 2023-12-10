@@ -40,7 +40,8 @@ export default defineComponent({
     />
     <WeatherTile
       v-if="
-        searchFilter.value.length >= 3 && !filteredCities.some((c) => c.localized === additionalSearchCityLocalizedName)
+        searchFilter.value.length >= 3 &&
+        !filteredCities.some((c: City) => c.localized === additionalSearchCityLocalizedName)
       "
       :city="searchFilter.value"
       @localizedCityName="(n) => (additionalSearchCityLocalizedName = n)"

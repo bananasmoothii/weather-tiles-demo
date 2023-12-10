@@ -34,11 +34,10 @@ export default defineComponent({
   methods: {
     nameToCity,
     editCity(city: City) {
-      this.editedCityId = city.randomId;
-      document.getElementById(`city-name-${city.randomId}`).focus();
+      document.getElementById(`city-name-${city.randomId}`)?.focus();
     },
     removeCity(city: City) {
-      cities.value = cities.value.filter((c) => c.randomId !== city.randomId);
+      cities.value = cities.value.filter((c: City) => c.randomId !== city.randomId);
     },
   },
 });
