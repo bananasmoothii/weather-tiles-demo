@@ -172,9 +172,6 @@ export default defineComponent({
       this.bgLink = "";
       this.findBackgroundImage();
     },
-    error(e) {
-      console.log("error:", e);
-    },
   },
 });
 </script>
