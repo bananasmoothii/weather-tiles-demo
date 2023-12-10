@@ -77,10 +77,11 @@ export default defineComponent({
       @start="drag = true"
       @end="nextTick(() => (drag = false))"
       target=".sort-target"
+      handle=".handle"
     >
       <TransitionGroup tag="ul" type="transition" class="sort-target" :name="drag ? undefined : 'fade'">
         <li v-for="(element, index) in cities" class="city-li" :key="element.randomId">
-          <span class="cursor-move">{{ index + 1 }}.</span>
+          <span class="handle cursor-move">{{ index + 1 }}.</span>
           <input type="text" :id="`city-name-${element.randomId}`" v-model="element.name" />
           <button @click="editCity(element)">
             <PencilIcon />
@@ -88,6 +89,12 @@ export default defineComponent({
           <button @click="removeCity(element)">
             <XMarkIcon />
           </button>
+          <svg class="handle cursor-move" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <title>drag</title>
+            <path
+              d="M7,19V17H9V19H7M11,19V17H13V19H11M15,19V17H17V19H15M7,15V13H9V15H7M11,15V13H13V15H11M15,15V13H17V15H15M7,11V9H9V11H7M11,11V9H13V11H11M15,11V9H17V11H15M7,7V5H9V7H7M11,7V5H13V7H11M15,7V5H17V7H15Z"
+            />
+          </svg>
         </li>
       </TransitionGroup>
     </VueDraggable>
@@ -97,7 +104,7 @@ export default defineComponent({
 
 <style lang="scss">
 .city-li {
-  @apply mt-2 flex items-center justify-between gap-3 rounded-lg border px-5 py-2;
+  @apply mt-2 flex flex-wrap items-center justify-between gap-3 rounded-lg border px-5 py-2;
 
   & svg {
     width: 1rem;
@@ -106,6 +113,7 @@ export default defineComponent({
 
   & > input {
     @apply flex-1 px-2 py-1;
+    min-width: 4rem;
   }
 }
 
