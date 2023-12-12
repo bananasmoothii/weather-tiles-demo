@@ -43,7 +43,7 @@ export default defineComponent({
         searchFilter.value.length >= 3 &&
         !filteredCities.some((c: City) => c.localized === additionalSearchCityLocalizedName)
       "
-      :city="searchFilter.value"
+      :city="searchFilter.value.toLowerCase().trim()"
       @localizedCityName="(n) => (additionalSearchCityLocalizedName = n)"
     />
   </div>
