@@ -59,21 +59,24 @@ export default defineComponent({
       ).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
     },
     async findBackgroundImage() {
-      let searchResult = await fetch(
-        "https://api.teleport.org/api/urban_areas/slug:" +
-          encodeURIComponent(this.city.toLowerCase().replace(" ", "-")) +
-          "/images/",
-      )
-        .then((res) => {
-          if (!res.ok) return;
-          return res.json();
-        })
-        .catch(() => {});
-      if (!searchResult) return;
-      let photos = searchResult.photos;
-      if (!photos) return;
-      let images = photos[Math.floor(Math.random() * photos.length)].image;
-      this.bgLink = this.big ? images.web : images.mobile;
+      let cityName = this.city.toLowerCase().replace(" ", "-");
+      this.bgLink = "/cities/" + cityName + ".jpg";
+
+      // let searchResult = await fetch(
+      //   "https://api.teleport.org/api/urban_areas/slug:" +
+      //     encodeURIComponent(cityName) +
+      //     "/images/",
+      // )
+      //   .then((res) => {
+      //     if (!res.ok) return;
+      //     return res.json();
+      //   })
+      //   .catch(() => {});
+      // if (!searchResult) return;
+      // let photos = searchResult.photos;
+      // if (!photos) return;
+      // let images = photos[Math.floor(Math.random() * photos.length)].image;
+      // this.bgLink = this.big ? images.web : images.mobile;
     },
     async fetchWeather() {
       await api
