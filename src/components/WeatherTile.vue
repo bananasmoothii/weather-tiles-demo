@@ -60,7 +60,9 @@ export default defineComponent({
     },
     async findBackgroundImage() {
       let cityName = this.city.toLowerCase().replace(" ", "-");
-      this.bgLink = "/cities/" + cityName + ".jpg";
+      this.bgLink = "/weather-tiles-demo/cities/" + cityName + ".jpg";
+
+      // this api has been shut down
 
       // let searchResult = await fetch(
       //   "https://api.teleport.org/api/urban_areas/slug:" +
